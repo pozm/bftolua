@@ -171,7 +171,7 @@ class parser {
 				case ops.PNT: {this.script+=`print(string.char(cells[cellptr]))`} break;
 				case ops.INP: {this.script+=`cells[cellptr]= io.read()`} break;
 				case ops.LPO: {this.script+=`while cells[cellptr]~=0 do `} break;
-				case ops.LPC: {this.script+=`end`} break;
+				case ops.LPC: {this.script=this.script.slice(0,this.script.length-1)+`end`} break;
 			}
 			this.script += '\n'
 		}
