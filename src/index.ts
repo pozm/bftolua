@@ -133,10 +133,17 @@ class tokenizer {
 		this.look()
 	}
 }
+
+const prep = `cells={0};cellptr=1;
+setmetatable(cells, {
+    __index = function(t) return 0 end
+});
+`
+
 class parser {
 	tokenizer : tokenizer
 	index : number = 0
-	script : string = 'cells={0};cellptr=1;\n'
+	script : string = prep
 	cells : number[] = [0]
 	cellPtr =0
 	constructor(tokenizer:tokenizer) {
@@ -165,7 +172,7 @@ class parser {
 				case ops.IVD: {this.cells[this.cellPtr]++; this.script+='cells[cellptr]=cells[cellptr]+1;'} break;
 				case ops.DVD: {this.cells[this.cellPtr]--; this.script+='cells[cellptr]=cells[cellptr]-1;'} break;
 				case ops.IDP: {this.cellPtr++; this.cells[this.cellPtr] ??= 0
-					this.script+='cellptr = cellptr + 1; if not cells[cellptr] then cells[cellptr] = 0 end'
+					this.script+='cellptr = cellptr + 1;'
 				} break;
 				case ops.DDP: {this.cellPtr--; this.script+='cellptr = cellptr -1'} break;
 				case ops.PNT: {this.script+=`print(string.char(cells[cellptr]))`} break;
