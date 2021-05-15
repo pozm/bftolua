@@ -136,7 +136,7 @@ class tokenizer {
 class parser {
 	tokenizer : tokenizer
 	index : number = 0
-	script : string = 'cells={0};cellptr=1;'
+	script : string = 'cells={0};cellptr=1;\n'
 	cells : number[] = [0]
 	cellPtr =0
 	constructor(tokenizer:tokenizer) {
@@ -157,10 +157,10 @@ class parser {
 
 	run() {
 		if (!this.tokenizer.tokens[this.index]) return this.script;
-		let shouldEm = this.deep() > 1
+		let deepness = this.deep()
 		let tkn = this.tokenizer.tokens[this.index]
 		if (tkn.op !== ops.IG){
-
+			this.script+=('\t').repeat(deepness)
 			switch (tkn.op) {
 				case ops.IVD: {this.cells[this.cellPtr]++; this.script+='cells[cellptr]=cells[cellptr]+1;'} break;
 				case ops.DVD: {this.cells[this.cellPtr]--; this.script+='cells[cellptr]=cells[cellptr]-1;'} break;
